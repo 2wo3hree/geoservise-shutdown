@@ -1,0 +1,12 @@
+github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
+github.com/ekomobile/dadata v1.0.2 h1:bWDQIeBbfXXcBxG1Xme+vvfX6owMksvr56ID9x1CV0s=
+github.com/ekomobile/dadata v1.0.2/go.mod h1:qAtB+0ZKr19WQGgng/ZrwaRa/XCGBCOeWn+KUKUgC9c=
+github.com/ekomobile/dadata/v2 v2.16.0 h1:kqFr+ZUhqKVdWk0FoMseDQXk0fh7WG/l2bi7rzUYTIM=
+github.com/ekomobile/dadata/v2 v2.16.0/go.mod h1:9M1X+i78gSC+a9GXXeK05D2LItP2eWQjnUIthMipMZw=
+github.com/go-chi/chi/v5 v5.2.1 h1:KOIHODQj58PmL80G2Eak4WdvUzjSJSm0vG72crDCqb8=
+github.com/go-chi/chi/v5 v5.2.1/go.mod h1:L2yAIGWB3H+phAw1NxKwWM+7eUH/lU8pOMm5hHcoops=
+github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
+github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
+github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
+github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
+gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
