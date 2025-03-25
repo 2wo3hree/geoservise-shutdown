@@ -108,6 +108,9 @@ func main() {
 		json.NewEncoder(w).Encode(response)
 	})
 
-	fmt.Println("Сервер запущен на порту 8080...")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	log.Println("Сервер запущен на порту 8080...")
+	err := http.ListenAndServe(":8080", r)
+	if err != nil {
+		return
+	}
 }
