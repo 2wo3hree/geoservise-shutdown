@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/ekomobile/dadata/v2/client"
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
@@ -25,7 +26,18 @@ type RequestGeocode struct {
 }
 
 type Address struct {
-	City string `json:"city"`
+	Source       string      `json:"source"`
+	Result       string      `json:"result"`
+	PostalCode   string      `json:"postal_code"`
+	Country      string      `json:"country"`
+	Region       string      `json:"region"`
+	CityArea     string      `json:"city_area"`
+	CityDistrict string      `json:"city_district"`
+	Street       string      `json:"street"`
+	House        string      `json:"house"`
+	GeoLat       string      `json:"geo_lat"`
+	GeoLon       string      `json:"geo_lon"`
+	QCGeo        interface{} `json:"qc_geo"`
 }
 
 type ResponseAddress struct {
@@ -41,7 +53,14 @@ func main() {
 		log.Fatal("Не заданы ключи DADATA_API_KEY и DADATA_SECRET_KEY в окружении")
 	}
 
-	api := dadata.NewSuggestApi()
+	creds := client.Credentials{
+		ApiKeyValue:    apiKey,
+		SecretKeyValue: secretKey,
+	}
+
+	api := dadata.NewSuggestApi(
+		client.WithCredentialProvider(&creds),
+	)
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -58,7 +77,9 @@ func main() {
 			return
 		}
 
-		params := suggest.RequestParams{Query: req.Query}
+		params := suggest.RequestParams{
+			Query: req.Query,
+		}
 		suggestions, err := api.Address(r.Context(), &params)
 		if err != nil {
 			http.Error(w, "Ошибка API", http.StatusInternalServerError)
@@ -67,8 +88,20 @@ func main() {
 
 		addresses := make([]*Address, 0, len(suggestions))
 		for _, s := range suggestions {
-			city := s.Data.City
-			addresses = append(addresses, &Address{City: city})
+			addresses = append(addresses, &Address{
+				Source:       req.Query,
+				Result:       s.Value,
+				PostalCode:   s.Data.PostalCode,
+				Country:      s.Data.Country,
+				Region:       s.Data.Region,
+				CityArea:     s.Data.CityArea,
+				CityDistrict: s.Data.CityDistrict,
+				Street:       s.Data.Street,
+				House:        s.Data.House,
+				GeoLat:       s.Data.GeoLat,
+				GeoLon:       s.Data.GeoLon,
+				QCGeo:        s.Data.QualityCodeGeoRaw,
+			})
 		}
 
 		response := ResponseAddress{Addresses: addresses}
@@ -99,8 +132,19 @@ func main() {
 
 		addresses := make([]*Address, 0, len(suggestions))
 		for _, s := range suggestions {
-			city := s.Data.City
-			addresses = append(addresses, &Address{City: city})
+			addresses = append(addresses, &Address{
+				Result:       s.Value,
+				PostalCode:   s.Data.PostalCode,
+				Country:      s.Data.Country,
+				Region:       s.Data.Region,
+				CityArea:     s.Data.CityArea,
+				CityDistrict: s.Data.CityDistrict,
+				Street:       s.Data.Street,
+				House:        s.Data.House,
+				GeoLat:       s.Data.GeoLat,
+				GeoLon:       s.Data.GeoLon,
+				QCGeo:        s.Data.QualityCodeGeoRaw,
+			})
 		}
 
 		response := ResponseAddress{Addresses: addresses}
