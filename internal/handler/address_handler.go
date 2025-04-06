@@ -2,8 +2,8 @@ package handler
 
 import (
 	"encoding/json"
-	"geoservise/internal/model"
-	"geoservise/internal/service"
+	"geoservise-jwt/internal/model"
+	"geoservise-jwt/internal/service"
 	"net/http"
 )
 
@@ -17,6 +17,18 @@ func NewAddressHandler(service *service.Service) *AddressHandler {
 	}
 }
 
+// @Summary Search address
+// @Description Get city info by address query
+// @Tags address
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Param request body model.RequestAddressSearch true "query address"
+// @Success 200 {object} model.ResponseAddress
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Failure 403 {string} string "Forbidden"
+// @Router /address/search [post]
 func (h *AddressHandler) Search(w http.ResponseWriter, r *http.Request) {
 	var req model.RequestAddressSearch
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -32,6 +44,18 @@ func (h *AddressHandler) Search(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(model.ResponseAddress{Addresses: addresses})
 }
 
+// @Summary Geocode by coordinates
+// @Description Get city info by latitude and longitude
+// @Tags address
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Param request body model.RequestGeocode true "coordinates"
+// @Success 200 {object} model.ResponseAddress
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Failure 403 {string} string "Forbidden"
+// @Router /address/geocode [post]
 func (h *AddressHandler) Geocode(w http.ResponseWriter, r *http.Request) {
 	var req model.RequestGeocode
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {

@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	"geoservise/internal/model"
+	"geoservise-jwt/internal/model"
 	"github.com/ekomobile/dadata/v2/api/suggest"
 	"strconv"
 	"strings"

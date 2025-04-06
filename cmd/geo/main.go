@@ -1,8 +1,17 @@
+// @title GeoService API
+// @version 1.0
+// @description This is a simple geo service using DaData.
+// @host localhost:8080
+// @BasePath /api
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 package main
 
 import (
-	"geoservise/internal/config"
-	"geoservise/internal/router"
+	_ "geoservise-jwt/docs"
+	"geoservise-jwt/internal/config"
+	"geoservise-jwt/internal/router"
 	"log"
 	"net/http"
 )
