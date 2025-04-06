@@ -11,7 +11,7 @@ RUN go mod tidy && go mod download
 COPY . .
 
 # Компилируем бинарник
-RUN go build -o server main.go
+RUN go build -o server ./cmd/geo/main.go
 
 # Используем минимальный базовый образ
 FROM alpine:latest
