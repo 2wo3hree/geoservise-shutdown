@@ -1,0 +1,194 @@
+basePath: /api
+definitions:
+  geoservise-jwt_internal_model.Address:
+    properties:
+      city_area:
+        type: string
+      city_district:
+        type: string
+      country:
+        type: string
+      geo_lat:
+        type: string
+      geo_lon:
+        type: string
+      house:
+        type: string
+      postal_code:
+        type: string
+      qc_geo: {}
+      region:
+        type: string
+      result:
+        type: string
+      source:
+        type: string
+      street:
+        type: string
+    type: object
+  geoservise-jwt_internal_model.RequestAddressSearch:
+    properties:
+      query:
+        type: string
+    type: object
+  geoservise-jwt_internal_model.RequestGeocode:
+    properties:
+      lat:
+        type: string
+      lng:
+        type: string
+    type: object
+  geoservise-jwt_internal_model.ResponseAddress:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/geoservise-jwt_internal_model.Address'
+        type: array
+    type: object
+  internal_auth.Credentials:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  internal_auth.TokenResponse:
+    properties:
+      token:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a simple geo service using DaData.
+  title: GeoService API
+  version: "1.0"
+paths:
+  /address/geocode:
+    post:
+      consumes:
+      - application/json
+      description: Get city info by latitude and longitude
+      parameters:
+      - description: coordinates
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/geoservise-jwt_internal_model.RequestGeocode'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/geoservise-jwt_internal_model.ResponseAddress'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Geocode by coordinates
+      tags:
+      - address
+  /address/search:
+    post:
+      consumes:
+      - application/json
+      description: Get city info by address query
+      parameters:
+      - description: query address
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/geoservise-jwt_internal_model.RequestAddressSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/geoservise-jwt_internal_model.ResponseAddress'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Search address
+      tags:
+      - address
+  /login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth.Credentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_auth.TokenResponse'
+        "400":
+          description: bad request
+          schema:
+            type: string
+      summary: LoginHandler user
+      tags:
+      - auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth.Credentials'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: user registered
+          schema:
+            type: string
+        "400":
+          description: bad request
+          schema:
+            type: string
+      summary: RegisterHandler new user
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

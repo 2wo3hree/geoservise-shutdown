@@ -12,8 +12,8 @@ import (
 	_ "geoservise-jwt/docs"
 	"geoservise-jwt/internal/config"
 	"geoservise-jwt/internal/router"
-	"log"
-	"net/http"
+	"geoservise-jwt/internal/server"
+	"geoservise-jwt/internal/shutdown"
 )
 
 func main() {
@@ -21,9 +21,6 @@ func main() {
 
 	r := router.SetupRouter(cfg.ApiKey, cfg.SecretKey)
 
-	log.Println("Сервер запущен на порту 8080...")
-	err := http.ListenAndServe(":8080", r)
-	if err != nil {
-		return
-	}
+	s := server.NewGeoServer(":8080", r)
+	shutdown.Gracefully(s)
 }
