@@ -10,8 +10,8 @@ package main
 
 import (
 	_ "geoservise-jwt/docs"
+	"geoservise-jwt/internal/app"
 	"geoservise-jwt/internal/config"
-	"geoservise-jwt/internal/router"
 	"geoservise-jwt/internal/server"
 	"geoservise-jwt/internal/shutdown"
 )
@@ -19,8 +19,8 @@ import (
 func main() {
 	cfg := config.LoadConfig()
 
-	r := router.SetupRouter(cfg.ApiKey, cfg.SecretKey)
+	application := app.NewApp(cfg.ApiKey, cfg.SecretKey)
 
-	s := server.NewGeoServer(":8080", r)
+	s := server.NewGeoServer(":8080", application.Router)
 	shutdown.Gracefully(s)
 }
